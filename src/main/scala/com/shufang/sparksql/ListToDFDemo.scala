@@ -1,6 +1,6 @@
 package com.shufang.sparksql
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 object ListToDFDemo {
   def main(args: Array[String]): Unit = {
@@ -19,6 +19,12 @@ object ListToDFDemo {
      * | good|
      * +-----+
      */
+
+//    val value: Dataset[String] = df.map {
+//      case Row(a: String) => a
+//    }
+
+//    value.show()
     spark.stop()
   }
 }

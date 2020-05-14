@@ -22,7 +22,7 @@ object SparkSQLDataSource01 {
       .option("inferSchema", "true")
       .option("header", "true")
       .load("examples/src/main/resources/people.csv")
-    spark.stop()
+
 
     peopleDFCsv.write.format("csv")
       .option("orc.bloom.filter.columns", "favorite_color")
@@ -47,5 +47,7 @@ object SparkSQLDataSource01 {
 //      .mode(SaveMode.Ignore)  //将一个df的数据save到指定的数据源，如果数据存在，那么忽略，什么也不做，也不抛出异常
 //      .mode(SaveMode.Overwrite)//将一个df的数据覆盖到原先的table、或者指定的数据源
       .saveAsTable("table_name")
+
+    spark.stop()
   }
 }
