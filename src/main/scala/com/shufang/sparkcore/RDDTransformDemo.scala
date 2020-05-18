@@ -3,6 +3,7 @@ package com.shufang.sparkcore
 import com.shufang.utils.SparkUtil
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
+import org.apache.spark.storage.StorageLevel
 
 object RDDTransformDemo {
   def main(args: Array[String]): Unit = {
@@ -13,6 +14,8 @@ object RDDTransformDemo {
 
     //缓存RDD，避免重溯血缘关系，减少重复计算，提高复用性
     source.cache()
+    source.unpersist()
+    source.persist(StorageLevel.MEMORY_ONLY_SER)
 
     //1.transforms operators
     val rdd: RDD[(String, Int)] = source.flatMap(_.split("\\s"))
@@ -49,9 +52,6 @@ object RDDTransformDemo {
     //读取sequenceFile
     val rdd1: RDD[(String, Int)] = sc.sequenceFile[String, Int]("src/main/core-output/sequence")
     println(rdd1.collect().mkString("--"))
-
-
-
 
 
 
