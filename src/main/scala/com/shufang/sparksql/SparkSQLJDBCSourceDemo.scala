@@ -1,6 +1,6 @@
 package com.shufang.sparksql
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 
 /**
  * 想要看SparkSQL的版本迭代过程及每次迭代更新的内容，please refer to the below  official link ==>>
@@ -13,7 +13,7 @@ object SparkSQLJDBCSourceDemo {
 
 
     //1、读取指定的JDBC-MySQL数据库的数据
-    var df: DataFrame = spark.read.format("jdbc")
+    val df: DataFrame = spark.read.format("jdbc")
       .option("url", "jdbc:mysql://localhost:3306/hello")
       .option("dbtable", "hr_emp")
       .option("user", "root")
@@ -41,6 +41,7 @@ object SparkSQLJDBCSourceDemo {
     //2、写入到Mysql
     df.write
       .format("jdbc")
+      .mode(SaveMode.Overwrite)
       .option("url", "jdbc:mysql://localhost:3306/hello")
       .option("dbtable", "hr_emp1")
       .option("user", "root")

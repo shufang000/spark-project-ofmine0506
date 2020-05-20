@@ -20,7 +20,7 @@ object BroadCastDemo {
     //使用广播变量
     val rdd: RDD[(String, Int)] = sc.sequenceFile[String, Int]("src/main/core-output/sequence")
     val rdd2: RDD[Array[Int]] = rdd.map {
-      case tuple =>
+       tuple =>
         //调用广播变量的值
         broadcastVar.value
     }

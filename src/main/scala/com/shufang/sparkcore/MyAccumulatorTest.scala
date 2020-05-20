@@ -20,13 +20,25 @@ object MyAccumulatorTest {
     //3、验证累加器
     val rdd: RDD[Int] = sc.parallelize(Seq(1, 2, 3, 4, 5))
 
-    rdd.foreach(myAcc.add(_))
-    println(myAcc.value.toString())
+    /*
+        rdd.map {
+          a =>
+            myAcc.add(a)
+            a
+        }.foreach(println(_))
+    */
+
+    rdd.foreach {
+      case a =>
+        myAcc.add(a)
+        print(a)
+    }
 
 
     val registered: Boolean = myAcc.isRegistered
     println(registered)
 
+    println(myAcc.value.toString())
 
     sc.stop()
   }

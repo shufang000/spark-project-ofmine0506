@@ -30,6 +30,5 @@ object SparkStreamingDemo {
     //等待终止，任务结束
     ssc.awaitTermination()
 
-
   }
 }
