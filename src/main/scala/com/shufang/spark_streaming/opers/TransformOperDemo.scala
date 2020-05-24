@@ -28,14 +28,16 @@ object TransformOperDemo {
 
     //获取DStream
     val source: DStream[(String, Int)] = ssc.socketTextStream("localhost", 9999)
-      .flatMap(_.split("\\s")).map((_, 1))
+      .flatMap(_.split("\\s"))
+      .map((_, 1))
       .reduceByKey(_ + _)
 
-    //调用transform算子
+    //调用transform算子,还可以使用广播变量
     val dStream: DStream[(String, Int)] = source.transform {
       rdd1 =>
         val rdd: RDD[(String, Int)] = bc.value.toDF().rdd.map(row => (row.getString(0), row.getInt(1)))
-        rdd1.union(rdd)
+        val result: RDD[(String, Int)] = rdd1.union(rdd)
+        result
     }
 
     //输出transform算子的转换结果

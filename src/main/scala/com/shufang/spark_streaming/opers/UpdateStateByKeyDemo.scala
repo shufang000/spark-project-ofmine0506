@@ -22,11 +22,11 @@ object UpdateStateByKeyDemo {
       .reduceByKey(_ + _)
 
     //自定义更新的方法，也可以用匿名函数代替，如下
-    /* val updateFun = (values:Seq[Int],state:Option[Int]) => {
+     val updateFun = (values:Seq[Int],state:Option[Int]) => {
           val newstate: Int = values.sum
           val oldstate = state.getOrElse(0)
           Some(newstate+oldstate)
-        }*/
+        }
 
     val updateStream: DStream[(String, Int)] = source.updateStateByKey(
       (value: Seq[Int], state: Option[Int]) => {
