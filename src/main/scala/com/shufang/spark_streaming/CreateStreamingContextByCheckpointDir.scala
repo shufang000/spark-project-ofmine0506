@@ -13,17 +13,23 @@ object CreateStreamingContextByCheckpointDir {
     println("这是第一次创建一个StreamingContext")
     val ssc = new StreamingContext(SparkUtil.getLocalSC(), Durations.seconds(5))
 
+    // 进行checkpoint操作
+    ssc.checkpoint("src/main/data/checkpoint_dir")
+
+
     // 创建一个DStream
     val dStream: ReceiverInputDStream[String] = ssc.socketTextStream("localhost", 9999)
 
+
     // 进行逻辑操作
     dStream.flatMap(_.split("\\s"))
-        .map((_,1))
-        .reduceByKey(_+_)
-        .print()
+      .map((_,1))
+      .reduceByKey(_+_)
+      .print()
 
-    // 进行checkpoint操作
-    ssc.checkpoint("src/main/data/checkpoint_dir")
+
+
+    dStream.checkpoint(Durations.seconds(50))
 
     // 方法返回值
     ssc
